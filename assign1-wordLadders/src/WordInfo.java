@@ -29,7 +29,7 @@ public class WordInfo {
 
     @Override
     public String toString() {
-        return String.format("Word %s Moves %d : History[%s]",
+        return String.format("%s : %d Moves [%s]",
                 word, moves, history);
     }
 }

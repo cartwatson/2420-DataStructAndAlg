@@ -46,16 +46,16 @@ public class LadderGame {
             WordInfo testWordInfo = queue.dequeue();
             if (testWordInfo.getWord().equals(end)) {
                 isComplete = true;
-                System.out.println(testWordInfo);
-                System.out.printf("Total Enqueue: %d", enqueueTotal);
+                System.out.print(start + " -> " + testWordInfo);
+                System.out.printf(" total enqueues %d", enqueueTotal);
+                System.out.println();
                 break;
             }
 
             for (int i = 0; i < oneAway(testWordInfo.getWord(), false).size(); i++) {
-
                 // find words one away from the following word in the queue
                 WordInfo tempWordInfo = new WordInfo(oneAway(testWordInfo.getWord(), true).get(i),
-                        testWordInfo.getMoves() + 1, testWordInfo.getHistory() + testWordInfo.getWord());
+                        testWordInfo.getMoves() + 1, testWordInfo.getHistory() + " " + testWordInfo.getWord() );
                 queue.enqueue(tempWordInfo);
                 enqueueTotal++;
             }
