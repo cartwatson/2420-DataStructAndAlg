@@ -15,6 +15,10 @@ public class WordLadders {
             System.out.println(word);
         }
         System.out.println();
+        for (String word : g.oneAway("oops", false)) {
+            System.out.println(word);
+        }
+        System.out.println();
 
         System.out.println("--- Word Ladders ---");
         g.play("oops", "tots");

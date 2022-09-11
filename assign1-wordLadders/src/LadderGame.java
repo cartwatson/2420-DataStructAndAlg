@@ -28,14 +28,18 @@ public class LadderGame {
                 } else if (Objects.equals(masterList[i].get(j), end)) {
                     endValid = true;
                 }
-                if (startValid && endValid) { break; }
             }
-            if (startValid && endValid) { break; }
+        }
+        if (!startValid || !endValid) {
+            System.out.println("Not valid words!");
+            return;
         }
         // TODO: play game
         ArrayList<String>[] masterListClone = masterList; // clone dict
         queue<WordInfo> queue = new queue<WordInfo>(); // create queue
         WordInfo startInfo = new WordInfo(start, 0); // convert start to word info
+        queue.enqueue(startInfo);
+        int enqueueTotal = 0;
         // find words one away from start word
         boolean isComplete = false;
         while (!queue.isEmpty() && !isComplete) {
@@ -43,13 +47,17 @@ public class LadderGame {
             if (testWordInfo.getWord().equals(end)) {
                 isComplete = true;
                 System.out.println(testWordInfo);
+                System.out.printf("Total Enqueue: %d", enqueueTotal);
                 break;
             }
+            System.out.println( oneAway(testWordInfo.getWord(), false).size() ); //-----------------------------
             for (int i = 0; i < oneAway(testWordInfo.getWord(), false).size(); i++) {
                 // find words one away from the following word in the queue
                 WordInfo tempWordInfo = new WordInfo(oneAway(testWordInfo.getWord(), true).get(i),
                         testWordInfo.getMoves() + 1, testWordInfo.getHistory() + testWordInfo.getWord());
+                System.out.println(tempWordInfo.getWord()); //-------------------------------------------------------------
                 queue.enqueue(tempWordInfo);
+                enqueueTotal++;
             }
         }
 
@@ -112,7 +120,6 @@ public class LadderGame {
             ArrayList<String>[] masterl = new ArrayList[longestWord-1];
             // add arrayLists to array
             for (int i = 2; i < longestWord-1; i++) {
-                System.out.println(i);
                 masterl[i] = new ArrayList<String>();
                 // add word(s) to inner array
                 for (String word : allWords) {
