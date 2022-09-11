@@ -50,7 +50,6 @@ public class LadderGame {
                 System.out.printf("Total Enqueue: %d", enqueueTotal);
                 break;
             }
-            System.out.println( oneAway(testWordInfo.getWord(), false).size() ); //-----------------------------
             for (int i = 0; i < oneAway(testWordInfo.getWord(), false).size(); i++) {
                 // find words one away from the following word in the queue
                 WordInfo tempWordInfo = new WordInfo(oneAway(testWordInfo.getWord(), true).get(i),
@@ -63,10 +62,10 @@ public class LadderGame {
 
         // restore dict
         ArrayList<String>[] masterList = masterListClone;
+        return;
     }
 
     public ArrayList<String> oneAway(String word, boolean withRemoval) {
-        System.out.printf("--- Words One Away from '%s' ---%n", word); // header text
         ArrayList<String> oneAwayWords = new ArrayList<>();
         // TODO: find words that are one letter away
         // run through masterlist
@@ -74,7 +73,9 @@ public class LadderGame {
             // run all words with diff
             if (diff(word, masterList[word.length()].get(j)) == 1) {
                 oneAwayWords.add(masterList[word.length()].get(j));
-                masterList[word.length()].remove(masterList[word.length()].get(j));
+                if (withRemoval) {
+                    masterList[word.length()].remove(masterList[word.length()].get(j));
+                }
             }
         }
         return oneAwayWords;

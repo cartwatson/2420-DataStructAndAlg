@@ -11,10 +11,12 @@ public class WordLadders {
         g.listWords(6, 10);
 
         // words one away from <word>
+        System.out.println("--- Words One Away from 'slow' ---"); // header text
         for (String word : g.oneAway("slow", false)) {
             System.out.println(word);
         }
         System.out.println();
+        System.out.println("--- Words One Away from 'oops' ---"); // header text
         for (String word : g.oneAway("oops", false)) {
             System.out.println(word);
         }
