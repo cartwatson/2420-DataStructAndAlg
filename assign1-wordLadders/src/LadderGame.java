@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class LadderGame {
     private ArrayList<String>[] masterList;
+    
     public LadderGame(String dictionaryFile) {
         readDictionary(dictionaryFile);
     }
@@ -19,11 +20,11 @@ public class LadderGame {
         // check to make sure words are in dict
         boolean startValid = false;
         boolean endValid = false;
-        for (ArrayList<String> wordsOfLengths : masterList) {
-            for (String value : wordsOfLengths) {
-                if (Objects.equals(value, start) ) {
+        for (int i = 0; i < masterList.length; i++) {
+            for (int j = 0; j < masterList[i].size(); j++) {
+                if (Objects.equals(masterList[i].get(j), start) ) {
                     startValid = true;
-                } else if (Objects.equals(value, end)) {
+                } else if (Objects.equals(masterList[i].get(j), end)) {
                     endValid = true;
                 }
                 if (startValid && endValid) { break; }
@@ -38,19 +39,23 @@ public class LadderGame {
         boolean isComplete = false;
         while (!queue.isEmpty() && !isComplete) {
             WordInfo testWordInfo = queue.dequeue();
+            if (testWordInfo.getWord() == end) {
+                System.out.println(testWordInfo);
+                break;
+            }
             for (int i = 0; i < oneAway(testWordInfo.getWord(), false).size(); i++) {
-                WordInfo tempWordInfo = new WordInfo(oneAway(testWordInfo.getWord(), true).get(i), ); // pull word out of dict and create wordinfo
-                queue.enqueue();
+                // find words one away from the following word in the queue
+                WordInfo tempWordInfo = new WordInfo(oneAway(testWordInfo.getWord(), true).get(i),
+                        testWordInfo.getMoves() + 1, testWordInfo.getHistory() + testWordInfo.getWord());
+                queue.enqueue(tempWordInfo);
             }
         }
 
-        // find words one away from the following word in the queue
-        // continue until chain is found
         // restore dict
         ArrayList<String>[] masterList = masterListClone;
     }
 
-    public ArrayList oneAway(String word, boolean withRemoval) {
+    public ArrayList<String> oneAway(String word, boolean withRemoval) {
         System.out.printf("--- Words One Away from '%s' ---%n", word); // header text
         ArrayList<String> oneAwayWords = new ArrayList<>();
         // TODO: find words that are one letter away

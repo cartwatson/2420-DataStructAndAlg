@@ -16,8 +16,8 @@ public class WordLadders {
         }
         System.out.println();
 
-//        System.out.println("--- Word Ladders ---");
-//        g.play("oops", "tots");
+        System.out.println("--- Word Ladders ---");
+        g.play("oops", "tots");
 //        g.play("ride", "ands");
 //        g.play("happily", "angrily");
 //        g.play("slow", "fast");
