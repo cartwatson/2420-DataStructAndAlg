@@ -4,6 +4,10 @@ public class WordLadders {
         LadderGame g = new LadderGame("dictionary.txt");
 
         // list words
+        g.listWords(2, 10);
+        g.listWords(3, 10);
+        g.listWords(4, 10);
+        g.listWords(5, 10);
         g.listWords(6, 10);
 
         // words one away from <word>
