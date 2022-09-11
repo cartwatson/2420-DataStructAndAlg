@@ -50,11 +50,12 @@ public class LadderGame {
                 System.out.printf("Total Enqueue: %d", enqueueTotal);
                 break;
             }
+
             for (int i = 0; i < oneAway(testWordInfo.getWord(), false).size(); i++) {
+
                 // find words one away from the following word in the queue
                 WordInfo tempWordInfo = new WordInfo(oneAway(testWordInfo.getWord(), true).get(i),
                         testWordInfo.getMoves() + 1, testWordInfo.getHistory() + testWordInfo.getWord());
-                System.out.println(tempWordInfo.getWord()); //-------------------------------------------------------------
                 queue.enqueue(tempWordInfo);
                 enqueueTotal++;
             }
@@ -73,9 +74,9 @@ public class LadderGame {
             // run all words with diff
             if (diff(word, masterList[word.length()].get(j)) == 1) {
                 oneAwayWords.add(masterList[word.length()].get(j));
-                if (withRemoval) {
-                    masterList[word.length()].remove(masterList[word.length()].get(j));
-                }
+//                if (withRemoval) {
+//                    masterList[word.length()].remove(masterList[word.length()].get(j));
+//                }
             }
         }
         return oneAwayWords;
