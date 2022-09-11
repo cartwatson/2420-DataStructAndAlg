@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class LadderGame {
     private ArrayList<String>[] masterList;
-    
+
     public LadderGame(String dictionaryFile) {
         readDictionary(dictionaryFile);
     }
@@ -21,6 +21,7 @@ public class LadderGame {
         boolean startValid = false;
         boolean endValid = false;
         for (int i = 0; i < masterList.length; i++) {
+            if (masterList[i] == null) { continue; }
             for (int j = 0; j < masterList[i].size(); j++) {
                 if (Objects.equals(masterList[i].get(j), start) ) {
                     startValid = true;
@@ -39,7 +40,8 @@ public class LadderGame {
         boolean isComplete = false;
         while (!queue.isEmpty() && !isComplete) {
             WordInfo testWordInfo = queue.dequeue();
-            if (testWordInfo.getWord() == end) {
+            if (testWordInfo.getWord().equals(end)) {
+                isComplete = true;
                 System.out.println(testWordInfo);
                 break;
             }
@@ -59,8 +61,14 @@ public class LadderGame {
         System.out.printf("--- Words One Away from '%s' ---%n", word); // header text
         ArrayList<String> oneAwayWords = new ArrayList<>();
         // TODO: find words that are one letter away
-
-        // print words
+        // run through masterlist
+        for (int j = 0; j < masterList[word.length()].size(); j++) {
+            // run all words with diff
+            if (diff(word, masterList[word.length()].get(j)) == 1) {
+                oneAwayWords.add(masterList[word.length()].get(j));
+                masterList[word.length()].remove(masterList[word.length()].get(j));
+            }
+        }
         return oneAwayWords;
     }
 
@@ -101,9 +109,10 @@ public class LadderGame {
             }
             // create 2D array
             // create master array
-            ArrayList<String>[] masterl = new ArrayList[longestWord];
+            ArrayList<String>[] masterl = new ArrayList[longestWord-1];
             // add arrayLists to array
-            for (int i = 2; i < longestWord; i++) {
+            for (int i = 2; i < longestWord-1; i++) {
+                System.out.println(i);
                 masterl[i] = new ArrayList<String>();
                 // add word(s) to inner array
                 for (String word : allWords) {
