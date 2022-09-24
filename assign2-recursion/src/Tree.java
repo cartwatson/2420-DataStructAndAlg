@@ -4,6 +4,7 @@ public class Tree<E extends Comparable<? super E>> {
     private BinaryTreeNode root;  // Root of tree
     private String name;     // Name of tree
 
+
     // Create an empty tree
         // @param label Name of tree
     public Tree(String label) {
@@ -20,7 +21,6 @@ public class Tree<E extends Comparable<? super E>> {
         }
     }
 
-
     // Create BST from Array
         // @param arr   List of elements to be added
         // @param label Name of  tree
@@ -31,76 +31,129 @@ public class Tree<E extends Comparable<? super E>> {
         }
     }
 
-    // Return a string containing the tree contents as a tree with one node per line
+
+    // Return a string containing the tree contents as a tree with one node per line -----------------------------------
     public String toString() {
         // TODO: return a string containing a visual (sideways) view of the tree
-        // TODO: return tree name
+        String message = "";
+        // return tree name
+        message = message.concat(this.name + "\n");
         // TODO: keys/value of tree with parents in square brackets to the right of the node
-        // TODO: if no parent, output "No parent"
-        // TODO: if no nodes, output "Empty Tree"
-        return "";
+        message = message.concat(traversal(root, 0));
+        // if no nodes, output "Empty Tree"
+        if (this.root == null) { message = "Empty Tree"; }
+        return message;
     }
 
-    // Return a string containing the tree contents as a single line
+    private String traversal(BinaryTreeNode x, int level) {
+        String subMessage = "";
+        String parentMessage = "";
+        String indent = " ".repeat(level);
+
+        // generate parent message
+        if (x.parent != null) { parentMessage = " [" + x.parent.key + "]\n"; }
+        else { parentMessage = " [No Parent]\n"; }
+
+        // add nodes with no children
+        if (x.left == null && x.right == null) {
+            subMessage = subMessage.concat(indent + x.key.toString() + parentMessage);
+        }
+        // run down right side, add nodes after recursion
+        if (x.right != null) {
+            subMessage = subMessage.concat(traversal(x.right, level + 1));
+            subMessage = subMessage.concat(indent + x.key.toString() + parentMessage);
+        }
+        // run down left side, add nodes before recursion
+        if (x.left != null) {
+            // check to not double add nodes with two children
+            if (x.right == null) { subMessage = subMessage.concat(indent + x.key.toString() + parentMessage);}
+            subMessage = subMessage.concat(traversal(x.left, level + 1));
+        }
+        return subMessage;
+    }
+
+    // Return a string containing the tree contents as a single line ---------------------------------------------------
     public String inOrderToString() {
         // TODO: returns a string containing the in order traversal
+        String message = "";
         // TODO: includes tree name
+        message = message.concat(this.name + ": ");
         // TODO: just a sorted list of all values
-        return "";
+        // go through all values, sort and print
+        message = message.concat(inOrderTraversal(this.root));
+        return message;
     }
 
-    // reverse left and right children recursively
+    private String inOrderTraversal(BinaryTreeNode x) {
+        String subMessage = "";
+        // add nodes with no children
+        if (x.left == null && x.right == null) {
+            subMessage = subMessage.concat(x.key.toString() + " ");
+        }
+        // run down left side, add nodes after recursion
+        if (x.left != null) {
+            subMessage = subMessage.concat(inOrderTraversal(x.left));
+            subMessage = subMessage.concat(x.key.toString() + " ");
+        }
+        // run down right side, add nodes before recursion
+        if (x.right != null) {
+            // check to not double add nodes with two children
+            if (x.left == null) { subMessage = subMessage.concat(x.key.toString() + " "); }
+            subMessage = subMessage.concat(inOrderTraversal(x.right));
+        }
+        return subMessage;
+    }
+
+    // reverse left and right children recursively ---------------------------------------------------------------------
     public void flip() {
         // TODO: swap left and right children recursively
-        // TODO:
     }
 
-    /**
-     * Returns the in-order successor of the specified node
-     * @param node node from which to find the in-order successor
-     */
+    // Returns the in-order successor of the specified node ------------------------------------------------------------
+        // @param node node from which to find the in-order successor
     public BinaryTreeNode inOrderSuccessor(BinaryTreeNode node) {
-        // TODO:
+        // TODO: find the node with the value after the given node
+        // TODO: if right node, then follow that path
+        // TODO: else, the successor has to be a parent
+            // TODO: if parent.right != givenNode, then return parent
+            // TODO: else, traverse up the tree
+        // TODO: if parent or not have a successor, return null
         return null;
     }
 
-    /**
-     * Counts number of nodes in specified level
-     *
-     * @param level Level in tree, root is zero
-     * @return count of number of nodes at specified level
-     */
+    // Counts number of nodes in specified level
+        // @param level, Level in tree, root is zero
+        // @return count of number of nodes at specified level
     public int nodesInLevel(int level) {
-        // TODO:
-        return 0;
+        int counter = 0;
+        // TODO: returns number of nodes at specific level
+        // TODO: if level is deeper than tree, zero is returned
+        return counter;
     }
 
     // Print all paths from root to leaves
     public void printAllPaths() {
-        // TODO:
+        // TODO: prints out all root-leaves paths in tree
+        // one per line
     }
 
-    /**
-     * Counts all non-null binary search trees embedded in tree
-     *
-     * @return Count of embedded binary search trees
-     */
+    // Counts all non-null binary search trees embedded in tree
+        // @return Count of embedded binary search trees
     public int countBST() {
         // TODO:
         return 0;
     }
 
-    /**
-     * Insert into a bst tree; duplicates are allowed
-     *
-     * @param x the item to insert.
-     */
+    // Insert into a bst tree; duplicates are allowed
+        // @param x the item to insert.
     public void insert(E x) {
         root = insert(x, root, null);
     }
 
     public BinaryTreeNode getByKey(E key) {
-        // TODO:
+        // TODO: perform traversal of tree
+        // TODO: return node with the associated key
+        // assume key exists and that were in a BST
         return null;
     }
 
@@ -132,7 +185,6 @@ public class Tree<E extends Comparable<? super E>> {
 
         return t;
     }
-
 
     /**
      * Internal method to find an item in a subtree.

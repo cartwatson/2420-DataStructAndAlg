@@ -1,7 +1,7 @@
 
 public class Recursion {
     public static void main(String[] args) {
-        Integer[] v1 = {25, 10, 60, 55, 58, 56, 14, 63, 8, 50, 6, 9};
+        Integer[] v1 = {25, 10, 14, 60, 55, 63, 58, 56}; // {25, 10, 60, 55, 58, 56, 14, 63, 8, 50, 6, 9};
         Integer[] v2 = {200, 15, 3, 65, 83, 70, 90};
 
         Tree<Integer> tree1 = new Tree<>(v1, "Tree 1");
