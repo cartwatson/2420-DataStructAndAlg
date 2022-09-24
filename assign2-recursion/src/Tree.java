@@ -66,19 +66,17 @@ public class Tree<E extends Comparable<? super E>> {
         // run down left side, add nodes before recursion
         if (x.left != null) {
             // check to not double add nodes with two children
-            if (x.right == null) { subMessage = subMessage.concat(indent + x.key.toString() + parentMessage);}
+            if (x.right == null) { subMessage = subMessage.concat(indent + x.key.toString() + parentMessage); }
             subMessage = subMessage.concat(traversal(x.left, level + 1));
         }
         return subMessage;
     }
 
     // Return a string containing the tree contents as a single line ---------------------------------------------------
+        // returns a string containing the in order traversal
     public String inOrderToString() {
-        // TODO: returns a string containing the in order traversal
         String message = "";
-        // TODO: includes tree name
         message = message.concat(this.name + ": ");
-        // TODO: just a sorted list of all values
         // go through all values, sort and print
         message = message.concat(inOrderTraversal(this.root));
         return message;
@@ -113,7 +111,14 @@ public class Tree<E extends Comparable<? super E>> {
         // @param node node from which to find the in-order successor
     public BinaryTreeNode inOrderSuccessor(BinaryTreeNode node) {
         // TODO: find the node with the value after the given node
-        // TODO: if right node, then follow that path
+        // if right node, then follow that path
+//        if (node.right != null) {
+//
+//        } else {
+//            if (node.parent != null && node.parent != node) {
+//                return node.parent.right;
+//            }
+//        }
         // TODO: else, the successor has to be a parent
             // TODO: if parent.right != givenNode, then return parent
             // TODO: else, traverse up the tree
@@ -121,17 +126,34 @@ public class Tree<E extends Comparable<? super E>> {
         return null;
     }
 
-    // Counts number of nodes in specified level
+    private BinaryTreeNode inOrderSuccessorHelper() {
+        return null;
+    }
+
+    // Counts number of nodes in specified level -----------------------------------------------------------------------
         // @param level, Level in tree, root is zero
         // @return count of number of nodes at specified level
     public int nodesInLevel(int level) {
-        int counter = 0;
-        // TODO: returns number of nodes at specific level
-        // TODO: if level is deeper than tree, zero is returned
-        return counter;
+        return levelHelper(this.root, 0, level);
     }
 
-    // Print all paths from root to leaves
+    private int levelHelper(BinaryTreeNode x, int level, int targetLevel) {
+        int ctr = 0;
+        if (targetLevel == 0) { return 1; } // catch root case
+        if (x.left == null && x.right == null) { if (level == targetLevel) { ctr += 1; } }
+        if (x.right != null) {
+            ctr += levelHelper(x.right, level + 1, targetLevel);
+            if (level == targetLevel) { ctr += 1; }
+        }
+        if (x.left != null) {
+            // don't double add nodes with two children
+            if (x.right == null) { if (level == targetLevel) { ctr += 1; } }
+            ctr += levelHelper(x.left, level + 1, targetLevel);
+        }
+        return ctr;
+    }
+
+    // Print all paths from root to leaves -----------------------------------------------------------------------------
     public void printAllPaths() {
         // TODO: prints out all root-leaves paths in tree
         // one per line
