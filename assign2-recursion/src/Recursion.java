@@ -45,11 +45,25 @@ public class Recursion {
         tree3.printAllPaths();
         System.out.println();
 
+        System.out.println("-- tree1.getByKey(...) -----------------------------------");
+        System.out.printf("25 is: %s\n", tree1.getByKey(25));
+        System.out.printf("10 is: %s\n", tree1.getByKey(10));
+        System.out.printf("14 is: %s\n", tree1.getByKey(14));
+        System.out.printf("55 is: %s\n", tree1.getByKey(55));
+        System.out.printf("56 is: %s\n", tree1.getByKey(56));
+        System.out.printf("58 is: %s\n", tree1.getByKey(58));
+        System.out.printf("60 is: %s\n", tree1.getByKey(60));
+        System.out.printf("63 is: %s\n", tree1.getByKey(63));
+        System.out.println();
+
         System.out.println("-- tree1.inOrderSuccessor(...) --");
         System.out.printf("In-order successor of 25 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(25)));
-        System.out.printf("In-order successor of 6 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(6)));
-        System.out.printf("In-order successor of 9 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(9)));
-        System.out.printf("In-order successor of 58 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(58)));
+        System.out.printf("In-order successor of 10 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(10))); //----------
+        System.out.printf("In-order successor of 14 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(14))); //----------
+        System.out.printf("In-order successor of 60 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(60))); //----------
+//        System.out.printf("In-order successor of 6 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(6)));
+//        System.out.printf("In-order successor of 9 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(9)));
+//        System.out.printf("In-order successor of 58 is: %s\n", tree1.inOrderSuccessor(tree1.getByKey(58)));
         System.out.println();
 
         System.out.println("-- tree1.countBST() --");

@@ -107,27 +107,28 @@ public class Tree<E extends Comparable<? super E>> {
         // TODO: swap left and right children recursively
     }
 
-    // Returns the in-order successor of the specified node ------------------------------------------------------------
+    // Returns the in-order successor of the specified node ------------------------------------------------------------  NOT WORKING - needs getKey to function first
         // @param node node from which to find the in-order successor
     public BinaryTreeNode inOrderSuccessor(BinaryTreeNode node) {
-        // TODO: find the node with the value after the given node
-        // if right node, then follow that path
-//        if (node.right != null) {
-//
-//        } else {
-//            if (node.parent != null && node.parent != node) {
-//                return node.parent.right;
-//            }
-//        }
-        // TODO: else, the successor has to be a parent
-            // TODO: if parent.right != givenNode, then return parent
-            // TODO: else, traverse up the tree
-        // TODO: if parent or not have a successor, return null
+        if (node.right != null) {
+            return inOrderSuccessorHelper(node.right);
+        } else {
+            if (node.parent != null && node.parent != node) {
+                return node.parent.right;
+            }
+        }
         return null;
     }
 
-    private BinaryTreeNode inOrderSuccessorHelper() {
+    private BinaryTreeNode inOrderSuccessorHelper(BinaryTreeNode x) {
+        BinaryTreeNode y = x;
+        if (x.left != null) {
+            y = inOrderSuccessorHelper(x.left);
+        } else {
+            return y;
+        }
         return null;
+
     }
 
     // Counts number of nodes in specified level -----------------------------------------------------------------------
@@ -153,13 +154,31 @@ public class Tree<E extends Comparable<? super E>> {
         return ctr;
     }
 
-    // Print all paths from root to leaves -----------------------------------------------------------------------------
+    // Print all paths from root to leaves -----------------------------------------------------------------------------  NOT WORKING
     public void printAllPaths() {
-        // TODO: prints out all root-leaves paths in tree
-        // one per line
+        System.out.println(printAllPathsHelper(this.root));
     }
 
-    // Counts all non-null binary search trees embedded in tree
+    private String printAllPathsHelper(BinaryTreeNode x) {
+        String message = "";
+        String subMessage = x.key.toString() + " ";
+        // add nodes with no children
+        if (x.left == null && x.right == null) {
+            message = message.concat(subMessage + "\n");
+            subMessage = "";
+        }
+        // run down left side, add nodes after recursion
+        if (x.left != null) {
+            subMessage = subMessage.concat(printAllPathsHelper(x.left));
+        }
+        // run down right side, add nodes before recursion
+        if (x.right != null) {
+            subMessage = subMessage.concat(printAllPathsHelper(x.right));
+        }
+        return subMessage;
+    }
+
+    // Counts all non-null binary search trees embedded in tree -------------------------------------------------------- NOT WORKING
         // @return Count of embedded binary search trees
     public int countBST() {
         // TODO:
@@ -172,17 +191,26 @@ public class Tree<E extends Comparable<? super E>> {
         root = insert(x, root, null);
     }
 
+    // returning the node with the associated key ---------------------------------------------------------------------- NOT WORKING
     public BinaryTreeNode getByKey(E key) {
-        // TODO: perform traversal of tree
-        // TODO: return node with the associated key
-        // assume key exists and that were in a BST
-        return null;
+        BinaryTreeNode node = getByKeyHelper(this.root, key);
+        return node;
     }
 
-    // Balance the tree
+    private BinaryTreeNode getByKeyHelper(BinaryTreeNode x, E key) {
+        if (x.key == key) { return x; }
+        BinaryTreeNode temp = null;
+        if (x.left == null && x.right == null) { return null; }
+        if (x.right != null) { return getByKeyHelper(x.right, key); }
+        if (x.left != null) { return getByKeyHelper(x.left, key); }
+        return temp;
+    }
+
+    // Balance the tree ------------------------------------------------------------------------------------------------  NOT WORKING
     public void balanceTree() {
         // TODO: height balance a tree in a new tree
         // TODO: gather values from original tree, put in ArrayList
+        String values = inOrderToString();
         // TODO: binary traversal insert
         // use built in insert
     }
