@@ -164,26 +164,11 @@ public class Tree<E extends Comparable<? super E>> {
 
     // Print all paths from root to leaves -----------------------------------------------------------------------------  NOT WORKING
     public void printAllPaths() {
-        System.out.println(printAllPathsHelper(this.root));
+//        System.out.println(printAllPathsHelper(this.root));
     }
 
-    private String printAllPathsHelper(BinaryTreeNode x) {
-        String message = "";
-        String subMessage = x.key.toString() + " ";
-        // add nodes with no children
-        if (x.left == null && x.right == null) {
-            message = message.concat(subMessage + "\n");
-            subMessage = "";
-        }
-        // run down left side, add nodes after recursion
-        if (x.left != null) {
-            subMessage = subMessage.concat(printAllPathsHelper(x.left));
-        }
-        // run down right side, add nodes before recursion
-        if (x.right != null) {
-            subMessage = subMessage.concat(printAllPathsHelper(x.right));
-        }
-        return subMessage;
+    private String printAllPathsHelper(BinaryTreeNode x, int[] path, int key) {
+        return "";
     }
 
     // Counts all non-null binary search trees embedded in tree -------------------------------------------------------- NOT WORKING
@@ -193,13 +178,11 @@ public class Tree<E extends Comparable<? super E>> {
     }
 
     private int countHelp(BinaryTreeNode x) {
-        if (x == null)
-            return 0;
-        int i = 0;
-        if (x.left != null && x.right != null)
-        i++;
-        i += (countHelp(x.left) + countHelp(x.right));
-        return i;
+        int ctr = 0;
+        if (x.left != null || x.right != null) { ctr += 1; }
+        if (x.right != null) { ctr += countHelp(x.right); }
+        if (x.left != null) { ctr += countHelp(x.left); }
+        return ctr;
     }
 
     // Insert into a bst tree; duplicates are allowed
@@ -235,7 +218,7 @@ public class Tree<E extends Comparable<? super E>> {
         // TODO: binary traversal insert
         int middle = values.length / 2;
         BinaryTreeNode newRoot = new BinaryTreeNode((E) values[middle]);
-        
+
         // use built in insert
     }
 
