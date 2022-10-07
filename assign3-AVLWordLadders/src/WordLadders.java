@@ -1,5 +1,3 @@
-import java.util.Queue;
-
 public class WordLadders {
     public static void main(String[] args) {
 
@@ -27,23 +25,25 @@ public class WordLadders {
         System.out.println("--- Word Ladders ---");
         g.play("oops", "tots");
         g.play("ride", "ands");
-//        g.play("happily", "angrily");
-//        g.play("slow", "fast");
-//        g.play("stone", "money");
-//        g.play("biff", "axis");
-//        g.play("fungi", "among");
-//        g.play("kiss", "woof");
+        g.play("happily", "angrily");
+        g.play("slow", "fast");
+        g.play("stone", "money");
+        g.play("biff", "axis");
+        g.play("fungi", "among");
+        g.play("kiss", "woof");
 
 
         // QUEUE TESTS
-//        queue<Integer> testqueue = new queue<Integer>(); // create queue
+//        Queue<Integer> testqueue = new Queue<Integer>(); // create queue
 //        testqueue.enqueue(1);
 //        testqueue.enqueue(2);
 //        testqueue.enqueue(3);
 //        testqueue.enqueue(4);
 //        System.out.println(testqueue);
 //        testqueue.dequeue();
+//        System.out.println(testqueue);
 //        testqueue.dequeue();
+//        System.out.println(testqueue);
 //        testqueue.dequeue();
 //        System.out.println(testqueue);
 //        testqueue.enqueue(8);

@@ -1,4 +1,4 @@
-public class queue<E> {
+public class Queue<E> {
     // --- code from lecture slides below ---
     private class node {
         public E value;
@@ -15,7 +15,7 @@ public class queue<E> {
     private node tail = null;
     private int size;
 
-    public queue() { this.size = 0; }
+    public Queue() { this.size = 0; }
     public int getSize() { return this.size; }
     public boolean isEmpty() { return this.size == 0; }
     // --- end code from lecture slides ---
