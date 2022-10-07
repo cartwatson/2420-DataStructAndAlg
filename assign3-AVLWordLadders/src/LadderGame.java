@@ -44,6 +44,7 @@ public class LadderGame {
         boolean isComplete = false;
         while (!queue.isEmpty() && !isComplete) {
             WordInfo testWordInfo = queue.dequeue();
+            // check if end word found
             if (testWordInfo.getWord().equals(end)) {
                 isComplete = true;
                 System.out.print(start + " -> " + testWordInfo);
@@ -52,6 +53,7 @@ public class LadderGame {
                 break;
             }
 
+            // find word
             for (int i = 0; i < oneAway(testWordInfo.getWord(), false).size(); i++) {
                 // find words one away from the following word in the queue
                 WordInfo tempWordInfo = new WordInfo(oneAway(testWordInfo.getWord(), true).get(i),
@@ -68,15 +70,19 @@ public class LadderGame {
 
     public ArrayList<String> oneAway(String word, boolean withRemoval) {
         ArrayList<String> oneAwayWords = new ArrayList<>();
-        // TODO: find words that are one letter away
         // run through masterlist
-        for (int j = 0; j < masterList[word.length()].size(); j++) {
-            // run all words with diff
-            if (diff(word, masterList[word.length()].get(j)) == 1) {
-                oneAwayWords.add(masterList[word.length()].get(j));
-//               if (withRemoval) {
-//                   masterList[word.length()].remove(masterList[word.length()].get(j));
-//               }
+        // masterlist for all words of same length as word
+        for (int i = 0; i < masterList[word.length()].size(); i ++) {
+            int diff = 0;
+            for (int j = 0; j < word.length(); j ++) {
+                if (word.substring(j).equals(masterList[word.length()].get(i).substring(j))) {
+                    continue; // no differences
+                } else {
+                    diff++;
+                }
+            }
+            if (diff == 1) {
+                oneAwayWords.add(masterList[word.length()].get(i));
             }
         }
         return oneAwayWords;
