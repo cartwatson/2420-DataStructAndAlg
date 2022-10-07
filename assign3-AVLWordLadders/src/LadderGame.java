@@ -78,19 +78,20 @@ public class LadderGame {
                 newList.add(tempWord);
             }
         }
-
         return clone;
     }
 
     public ArrayList<String> oneAway(String word, boolean withRemoval) {
         ArrayList<String> oneAwayWords = new ArrayList<>();
         // masterlist for all words of same length as word
-        for (int i = 0; i < masterList.get(word.length()).size(); i ++) {
-            if (diff(word, masterList.get(word.length()).get(i))) {
-                oneAwayWords.add(masterList.get(word.length()).get(i));
-                if (withRemoval) {
-                    masterList.get(word.length()).remove(i);
-                }
+        for (String dictWord : masterList.get(word.length())) {
+            if (diff(word, dictWord)) {
+                oneAwayWords.add(dictWord);
+            }
+        }
+        if (withRemoval) {
+            for (String oneAwayWord : oneAwayWords) {
+                masterList.get(word.length()).remove(oneAwayWord);
             }
         }
         return oneAwayWords;
@@ -131,7 +132,6 @@ public class LadderGame {
                 allWords.add(word);
                 longestWord = Math.max(longestWord, word.length());
             }
-            // create 2D array
             // create master array
             ArrayList<ArrayList<String>> masterl = new ArrayList<ArrayList<String>>();
             // add arrayLists to array
@@ -149,6 +149,5 @@ public class LadderGame {
         catch (java.io.IOException ex) {
             System.out.println("An error occurred trying to read the dictionary: " + ex);
         }
-
     }
 }

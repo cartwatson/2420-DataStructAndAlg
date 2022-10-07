@@ -57,5 +57,4 @@ public class Queue<E> {
         }
         return result + "]";
     }
-
 }

@@ -31,22 +31,5 @@ public class WordLadders {
         g.play("biff", "axis");
         g.play("fungi", "among");
         g.play("kiss", "woof");
-
-
-        // QUEUE TESTS
-//        Queue<Integer> testqueue = new Queue<Integer>(); // create queue
-//        testqueue.enqueue(1);
-//        testqueue.enqueue(2);
-//        testqueue.enqueue(3);
-//        testqueue.enqueue(4);
-//        System.out.println(testqueue);
-//        testqueue.dequeue();
-//        System.out.println(testqueue);
-//        testqueue.dequeue();
-//        System.out.println(testqueue);
-//        testqueue.dequeue();
-//        System.out.println(testqueue);
-//        testqueue.enqueue(8);
-//        System.out.println(testqueue);
     }
 }
