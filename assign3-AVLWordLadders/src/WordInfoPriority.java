@@ -14,7 +14,6 @@ public class WordInfoPriority extends WordInfo implements Comparable<WordInfoPri
     public int compareTo(WordInfoPriority o) {
         // compare priority
         return Integer.compare(this.priority, o.priority);
-
 //        if (this.priority < o.priority) {
 //            return -1;
 //        } else if (this.priority == o.priority) {

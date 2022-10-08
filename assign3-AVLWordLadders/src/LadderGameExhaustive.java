@@ -8,25 +8,7 @@ public class LadderGameExhaustive extends LadderGame {
     @Override
     public void play(String start, String end) {
         System.out.println("Seeking exhaustive solution from " + start + " -> " + end);
-        // check compatibility of words
-        if (start.length() != end.length()) {
-            System.out.println("Start and end words not of matching length");
-            return;
-        }
-        // check to make sure words are in dict
-        boolean startValid = false;
-        boolean endValid = false;
-        for (ArrayList<String> strings : masterList) {
-            for (String string : strings) {
-                if (start.equals(string)) {
-                    startValid = true;
-                } else if (end.equals(string)) {
-                    endValid = true;
-                }
-            }
-        }
-        if (!startValid || !endValid) {
-            System.out.println("Not valid words!");
+        if (!wordCompatibility(start, end)) {
             return;
         }
 
@@ -44,13 +26,14 @@ public class LadderGameExhaustive extends LadderGame {
             ArrayList<String> oneAwayFromTest = oneAway(testWordInfo.getWord(), true);
             for (String word : oneAwayFromTest) {
                 // find words one away from the following word in the queue
-                WordInfo tempWordInfo = new WordInfo(word, testWordInfo.getMoves() + 1,
-                        testWordInfo.getHistory() + " " + word );
+                WordInfo tempWordInfo = new WordInfo(word,
+                        testWordInfo.getMoves() + 1,
+                        testWordInfo.getHistory() + " " + word
+                );
                 // check most recent word for completion
                 if (tempWordInfo.getWord().equals(end)) {
                     isDone = true;
-                    System.out.print(tempWordInfo);
-                    System.out.printf(" total enqueues %d", enqueueTotal);
+                    System.out.printf(" " + tempWordInfo + " total enqueues %d", enqueueTotal);
                     System.out.println();
                     break;
                 }

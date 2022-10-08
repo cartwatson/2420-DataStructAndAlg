@@ -11,6 +11,31 @@ public abstract class LadderGame {
 
     public abstract void play(String start, String end);
 
+    protected boolean wordCompatibility(String start, String end) {
+        // check compatibility of words
+        if (start.length() != end.length()) {
+            System.out.println("Start and end words not of matching length!");
+            return false;
+        }
+        // check to make sure words are in dict
+        boolean startValid = false;
+        boolean endValid = false;
+        for (ArrayList<String> strings : masterList) {
+            for (String string : strings) {
+                if (start.equals(string)) {
+                    startValid = true;
+                } else if (end.equals(string)) {
+                    endValid = true;
+                }
+            }
+        }
+        if (!startValid || !endValid) {
+            System.out.println("Not valid words!");
+            return false;
+        }
+        return true;
+    }
+
     protected ArrayList<ArrayList<String>> cloneArrayList(ArrayList<ArrayList<String>> list) {
         ArrayList<ArrayList<String>> clone = new ArrayList<ArrayList<String>>();
         for (ArrayList<String> tempList : list) {
@@ -27,7 +52,7 @@ public abstract class LadderGame {
         ArrayList<String> oneAwayWords = new ArrayList<>();
         // masterlist for all words of same length as word
         for (String dictWord : masterList.get(word.length())) {
-            if (diff(word, dictWord)) {
+            if (diff(word, dictWord) == 1) {
                 oneAwayWords.add(dictWord);
             }
         }
@@ -39,7 +64,7 @@ public abstract class LadderGame {
         return oneAwayWords;
     }
 
-    protected boolean diff(String word, String testWord) {
+    protected int diff(String word, String testWord) {
         int diffCount = 0;
         for (int i = 0; i < word.length(); i++) {
             char currLetter = word.charAt(i);
@@ -48,7 +73,7 @@ public abstract class LadderGame {
                 diffCount++;
             }
         }
-        return diffCount == 1;
+        return diffCount;
     }
 
     public void listWords(int length, int howMany) {
