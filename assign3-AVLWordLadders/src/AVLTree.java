@@ -18,12 +18,51 @@ public class AVLTree<E extends Comparable<? super E>> {
     }
 
     public E deleteMin() {
-        // TODO: Write some good stuff here
+        AvlNode temp = deleteMinHelper(this.root);
+        balance(temp);
+        if (temp != null) {
+            return temp.value;
+        } else {
+            return null;
+        }
+    }
 
-        // Note: I only put this code here to have it compile.
-        // This will NOT work if root is null.  You should return
-        // the actual min value found.
-        return root.value;
+    // delete min value
+    private AvlNode deleteMinHelper(AvlNode node) {
+        AvlNode temp = new AvlNode(null, null, null);
+        // ---- root cases ----
+        // no root
+        if (isEmpty()) {
+            return null;
+        }
+        // root w/ no children
+        if (node.left == null && node.right == null) {
+            temp = this.root;
+            makeEmpty();
+            return temp;
+        }
+        // root node w/ no left children
+        if (node.left == null) {
+            temp = this.root;
+            this.root = node.right;
+            return temp;
+        }
+
+        // ---- non-root cases ----
+        // recursively find min value
+        if (node.left != null) {
+            if (node.left.left != null) {
+                deleteMinHelper(node.left);
+            } else { //node.left.left == null
+                temp = node;
+                if (node.left.right != null) {
+                    node.left = node.left.right;
+                } else {
+                    node.left = null;
+                }
+            }
+        }
+        return temp;
     }
 
     // Find the largest item in the tree.
@@ -57,10 +96,13 @@ public class AVLTree<E extends Comparable<? super E>> {
     public void printTree(String label) {
         System.out.println(label);
         printTreeHelper(this.root, 0);
-        System.out.println();
     }
 
     private void printTreeHelper(AvlNode node, int level) {
+        if (this.isEmpty()) {
+            System.out.println("Tree is Empty!");
+            return;
+        }
         // find right most node
         if (node.right != null) {
             printTreeHelper(node.right, ++level);

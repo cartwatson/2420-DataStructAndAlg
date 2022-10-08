@@ -57,22 +57,27 @@ public class WordLadders {
         primeTree.printTree("Prime Tree");
         dwarfTree.printTree( "Dwarf Tree" );
 
-//        System.out.println("\n\n-- Calling deleteMin on primeTree --");
-//        primeTree.deleteMin();
-//        primeTree.printTree("The Tree after deleteMin");
-//        System.out.println("-- Calling deleteMin on primeTree --");
-//        primeTree.deleteMin();
-//        primeTree.printTree("The Tree after deleteMin");
+        System.out.println("\n\n-- Calling deleteMin on primeTree --");
+        primeTree.deleteMin();
+        primeTree.printTree("The Tree after deleteMin");
+        System.out.println("-- Calling deleteMin on primeTree --");
+        primeTree.deleteMin();
+        primeTree.printTree("The Tree after deleteMin");
+        System.out.println("-- Calling deleteMin on primeTree --");
+        primeTree.deleteMin();
+        primeTree.printTree("The Tree after deleteMin");
+
 //
 //        System.out.println("-- Calling deleteMin on dwarfTree until it is empty");
 //        while (!dwarfTree.isEmpty()) {
 //            System.out.printf("%s\n", dwarfTree.deleteMin());
 //        }
-//        System.out.println("-- Calling deleteMin on primeTree until it is empty");
-//        while (!primeTree.isEmpty()) {
-//            var max = primeTree.findMax();
-//            System.out.printf("%d[%d] ", primeTree.deleteMin(), max);
-//        }
-//        System.out.println();
+        System.out.println("-- Calling deleteMin on primeTree until it is empty");
+        while (!primeTree.isEmpty()) {
+            var max = primeTree.findMax();
+            System.out.printf("%d[%d] ", primeTree.deleteMin(), max);
+//            primeTree.printTree("The Tree after deleteMin");
+        }
+        System.out.println();
     }
 }
