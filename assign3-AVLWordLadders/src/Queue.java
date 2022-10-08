@@ -43,10 +43,10 @@ public class Queue<E> {
     }
 
     public String toString() {
-        String result = "[";
         if (head == null) {
             return "Empty Queue";
         }
+        String result = "[";
         node temp = head;
         for (int i = 0; i < size; i ++) {
             result += temp.value.toString();

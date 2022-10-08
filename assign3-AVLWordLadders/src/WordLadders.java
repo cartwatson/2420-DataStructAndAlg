@@ -1,6 +1,8 @@
 public class WordLadders {
     public static void main(String[] args) {
         testAvlTree();
+        System.out.println();
+        System.out.println();
         ladderGame();
     }
 

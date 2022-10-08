@@ -14,26 +14,26 @@ public class LadderGameExhaustive extends LadderGame {
 
         // play game
         ArrayList<ArrayList<String>> masterListClone = cloneArrayList(masterList); // clone dict
-        Queue<WordInfo> queue = new Queue<>(); // create queue
-        WordInfo startInfo = new WordInfo(start, 0); // convert start to word info
+        Queue<WordInfoExhaustive> queue = new Queue<>(); // create queue
+        WordInfoExhaustive startInfo = new WordInfoExhaustive(start, 0); // convert start to word info
         masterList.get(start.length()).remove(start);
         queue.enqueue(startInfo);
         int enqueueTotal = 1;
         boolean isDone = false;
         while (!queue.isEmpty() && !isDone) {
-            WordInfo testWordInfo = queue.dequeue();
+            WordInfoExhaustive testWordInfo = queue.dequeue();
             // find one away words, add to queue
             ArrayList<String> oneAwayFromTest = oneAway(testWordInfo.getWord(), true);
             for (String word : oneAwayFromTest) {
                 // find words one away from the following word in the queue
-                WordInfo tempWordInfo = new WordInfo(word,
+                WordInfoExhaustive tempWordInfo = new WordInfoExhaustive(word,
                         testWordInfo.getMoves() + 1,
                         testWordInfo.getHistory() + " " + word
                 );
                 // check most recent word for completion
                 if (tempWordInfo.getWord().equals(end)) {
                     isDone = true;
-                    System.out.printf(" " + tempWordInfo + " total enqueues %d", enqueueTotal);
+                    System.out.printf(" [" + tempWordInfo.getHistory() + "] total enqueues %d", enqueueTotal);
                     System.out.println();
                     break;
                 }

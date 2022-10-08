@@ -9,6 +9,14 @@ public abstract class LadderGame {
         readDictionary(dictionaryFile);
     }
 
+    public void listWords(int length, int howMany) {
+        System.out.printf("--- First %d words of length %d ---%n", howMany, length); // header text
+        for (int i = 0; i < howMany; i++) {
+            System.out.println(masterList.get(length).get(i));
+        }
+        System.out.println();
+    }
+
     public abstract void play(String start, String end);
 
     protected boolean wordCompatibility(String start, String end) {
@@ -48,7 +56,7 @@ public abstract class LadderGame {
         return clone;
     }
 
-    public ArrayList<String> oneAway(String word, boolean withRemoval) {
+    protected ArrayList<String> oneAway(String word, boolean withRemoval) {
         ArrayList<String> oneAwayWords = new ArrayList<>();
         // masterlist for all words of same length as word
         for (String dictWord : masterList.get(word.length())) {
@@ -74,14 +82,6 @@ public abstract class LadderGame {
             }
         }
         return diffCount;
-    }
-
-    public void listWords(int length, int howMany) {
-        System.out.printf("--- First %d words of length %d ---%n", howMany, length); // header text
-        for (int i = 0; i < howMany; i++) {
-            System.out.println(masterList.get(length).get(i));
-        }
-        System.out.println();
     }
 
     // Reads a list of words from a file, putting all words of the same length into the same array.
