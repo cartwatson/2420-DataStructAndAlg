@@ -56,17 +56,23 @@ public class AVLTree<E extends Comparable<? super E>> {
     // Print the tree contents in sorted order.
     public void printTree(String label) {
         System.out.println(label);
-        // TODO: put something here
-        // Each node should be printed with its value, followed by the height of the sub-tree in parenthesis.
-        // See the example output below for what it should look like.  The first number is the key to the node, the number in parenthesis is the height of the node.
-        // This is very similar to what you did for the recursion assignment.
-
+        printTreeHelper(this.root, 0);
+        System.out.println();
     }
 
-    private void printTreeHelper(AvlNode node) {
-        
+    private void printTreeHelper(AvlNode node, int level) {
+        // find right most node
+        if (node.right != null) {
+            printTreeHelper(node.right, ++level);
+            level--;
+        }
+        // back up and print parent
+        System.out.println("   ".repeat(level) + node.value + "(" + node.height + ")");
+        // find left most node
+        if (node.left != null) {
+            printTreeHelper(node.left, ++level);
+        }
     }
-
 
     private static final int ALLOWED_IMBALANCE = 1;
 
