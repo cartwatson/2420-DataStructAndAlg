@@ -6,18 +6,13 @@ import java.lang.*;
  * Based on code provided by Mark Allen Weiss (CS 2420 book author)
  */
 public class AVLTree<E extends Comparable<? super E>> {
-    /**
-     * Construct the tree.
-     */
+    // Construct the tree.
     public AVLTree() {
         root = null;
     }
 
-    /**
-     * Insert into the tree; duplicates are ignored.
-     *
-     * @param value the item to insert.
-     */
+    // Insert into the tree; duplicates are ignored.
+    // @param value the item to insert.
     public void insert(E value) {
         root = insert(value, root);
     }
@@ -31,50 +26,41 @@ public class AVLTree<E extends Comparable<? super E>> {
         return root.value;
     }
 
-    /**
-     * Find the largest item in the tree.
-     *
-     * @return the largest item of null if empty.
-     */
+    // Find the largest item in the tree.
+    // @return the largest item of null if empty.
     public E findMax() {
         if (isEmpty()) {
             throw new RuntimeException();
         }
-
         return findMax(root).value;
     }
 
-    /**
-     * Find an item in the tree.
-     *
-     * @param value the item to search for.
-     * @return true if x is found.
-     */
+    // Find an item in the tree.
+    // @param value the item to search for.
+    // @return true if x is found.
     public boolean contains(E value) {
         return contains(value, root);
     }
 
-    /**
-     * Make the tree logically empty.
-     */
+    // Make the tree logically empty.
     public void makeEmpty() {
         root = null;
     }
 
-    /**
-     * Test if the tree is logically empty.
-     *
-     * @return true if empty, false otherwise.
-     */
+    // Test if the tree is logically empty.
+    // @return true if empty, false otherwise.
     public boolean isEmpty() {
         return root == null;
     }
 
-    /**
-     * Print the tree contents in sorted order.
-     */
+    // Print the tree contents in sorted order.
     public void printTree(String label) {
-        // TODO: Write some good stuff here
+        System.out.println(label);
+        // TODO: put something here
+        // Each node should be printed with its value, followed by the height of the sub-tree in parenthesis.
+        // See the example output below for what it should look like.  The first number is the key to the node, the number in parenthesis is the height of the node.
+        // This is very similar to what you did for the recursion assignment.
+
     }
 
     private static final int ALLOWED_IMBALANCE = 1;
@@ -103,13 +89,10 @@ public class AVLTree<E extends Comparable<? super E>> {
         return node;
     }
 
-    /**
-     * Internal method to insert into a subtree.  Duplicates are allowed
-     *
-     * @param value the item to insert.
-     * @param node  the node that roots the subtree.
-     * @return the new root of the subtree.
-     */
+    // Internal method to insert into a subtree.  Duplicates are allowed
+    // @param value the item to insert.
+    // @param node  the node that roots the subtree.
+    // @return the new root of the subtree.
     private AvlNode insert(E value, AvlNode node) {
         if (node == null) {
             return new AvlNode(value, null, null);
@@ -126,12 +109,9 @@ public class AVLTree<E extends Comparable<? super E>> {
         return balance(node);
     }
 
-    /**
-     * Internal method to find the largest item in a subtree.
-     *
-     * @param node the node that roots the tree.
-     * @return node containing the largest item.
-     */
+    // Internal method to find the largest item in a subtree.
+    // @param node the node that roots the tree.
+    // @return node containing the largest item.
     private AvlNode findMax(AvlNode node) {
         if (node == null) {
             return null;
@@ -143,13 +123,10 @@ public class AVLTree<E extends Comparable<? super E>> {
         return node;
     }
 
-    /**
-     * Internal method to find an item in a subtree.
-     *
-     * @param value is item to search for.
-     * @param node  the node that roots the tree.
-     * @return true if x is found in subtree.
-     */
+    // Internal method to find an item in a subtree.
+    // @param value is item to search for.
+    // @param node  the node that roots the tree.
+    // @return true if x is found in subtree.
     private boolean contains(E value, AvlNode node) {
         while (node != null) {
             int compareResult = value.compareTo(node.value);
@@ -166,9 +143,7 @@ public class AVLTree<E extends Comparable<? super E>> {
         return false;   // No match
     }
 
-    /**
-     * Return the height of node t, or -1, if null.
-     */
+    // Return the height of node t, or -1, if null.
     private int height(AvlNode node) {
         if (node == null) {
             return -1;
@@ -177,11 +152,9 @@ public class AVLTree<E extends Comparable<? super E>> {
         return node.height;
     }
 
-    /**
-     * Rotate binary tree node with left child.
-     * For AVL trees, this is a single rotation for case 1.
-     * Update heights, then return new root.
-     */
+    // Rotate binary tree node with left child.
+    // For AVL trees, this is a single rotation for case 1.
+    // Update heights, then return new root.
     private AvlNode rightRotation(AvlNode node) {
         AvlNode theLeft = node.left;
         node.left = theLeft.right;
@@ -241,8 +214,6 @@ public class AVLTree<E extends Comparable<? super E>> {
         int height;       // Height
     }
 
-    /**
-     * The tree root.
-     */
+    // The tree root.
     private AvlNode root;
 }
