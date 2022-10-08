@@ -3,6 +3,9 @@ public class LadderGamePriority extends LadderGame {
 
     @Override
     public void play(String start, String end) {
-        // TODO: implement best first alg
+        // TODO: implement A* alg
+        // use AVL Tree
+        // don't remove words - but keep track of them
+        
     }
 }
