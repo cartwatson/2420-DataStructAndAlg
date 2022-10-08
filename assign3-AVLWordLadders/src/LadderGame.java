@@ -2,74 +2,16 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class LadderGame {
-    private ArrayList<ArrayList<String>> masterList;
+public abstract class LadderGame {
+    protected ArrayList<ArrayList<String>> masterList;
 
     public LadderGame(String dictionaryFile) {
         readDictionary(dictionaryFile);
     }
 
-    public void play(String start, String end) {
-        // check compatibility of words
-        if (start.length() != end.length()) {
-            System.out.println("Start and end words not of matching length");
-            return;
-        }
-        // check to make sure words are in dict
-        boolean startValid = false;
-        boolean endValid = false;
-        for (ArrayList<String> strings : masterList) {
-            for (String string : strings) {
-                if (start.equals(string)) {
-                    startValid = true;
-                } else if (end.equals(string)) {
-                    endValid = true;
-                }
-            }
-        }
-        if (!startValid || !endValid) {
-            System.out.println("Not valid words!");
-            return;
-        }
+    public abstract void play(String start, String end);
 
-        // play game
-        ArrayList<ArrayList<String>> masterListClone = cloneArrayList(masterList); // clone dict
-        Queue<WordInfo> queue = new Queue<>(); // create queue
-        WordInfo startInfo = new WordInfo(start, 0); // convert start to word info
-        masterList.get(start.length()).remove(start);
-        queue.enqueue(startInfo);
-        int enqueueTotal = 0;
-        boolean isDone = false;
-        while (!queue.isEmpty()) {
-            WordInfo testWordInfo = queue.dequeue();
-            // check for completion
-            if (testWordInfo.getWord().equals(end)) {
-                isDone = true;
-                System.out.print(start + " -> " + testWordInfo);
-                System.out.printf(" total enqueues %d", enqueueTotal);
-                System.out.println();
-                break;
-            }
-
-            // find one away words, add to queue
-            ArrayList<String> oneAwayFromTest = oneAway(testWordInfo.getWord(), true);
-            for (String word : oneAwayFromTest) {
-                // find words one away from the following word in the queue
-                WordInfo tempWordInfo = new WordInfo(word, testWordInfo.getMoves() + 1,
-                        testWordInfo.getHistory() + " " + word );
-                queue.enqueue(tempWordInfo);
-                enqueueTotal++;
-            }
-        }
-        if (!isDone) {
-            System.out.println(start + " -> " + end + ": No ladder was found");
-        }
-
-        // restore dict
-        masterList = masterListClone;
-    }
-
-    private ArrayList<ArrayList<String>> cloneArrayList(ArrayList<ArrayList<String>> list) {
+    protected ArrayList<ArrayList<String>> cloneArrayList(ArrayList<ArrayList<String>> list) {
         ArrayList<ArrayList<String>> clone = new ArrayList<ArrayList<String>>();
         for (ArrayList<String> tempList : list) {
             ArrayList<String> newList = new ArrayList<String>();
@@ -97,7 +39,7 @@ public class LadderGame {
         return oneAwayWords;
     }
 
-    private boolean diff(String word, String testWord) {
+    protected boolean diff(String word, String testWord) {
         int diffCount = 0;
         for (int i = 0; i < word.length(); i++) {
             char currLetter = word.charAt(i);

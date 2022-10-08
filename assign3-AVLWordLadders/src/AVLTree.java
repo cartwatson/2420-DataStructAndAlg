@@ -18,51 +18,30 @@ public class AVLTree<E extends Comparable<? super E>> {
     }
 
     public E deleteMin() {
-        AvlNode temp = deleteMinHelper(this.root);
-        balance(temp);
-        if (temp != null) {
-            return temp.value;
-        } else {
+        if (isEmpty()) {
             return null;
         }
+        // find value
+        AvlNode temp = this.root;
+        while (temp.left != null) {
+            temp = temp.left;
+        }
+        // delete node
+        this.root = deleteMinHelper(this.root);
+        return temp.value;
     }
 
     // delete min value
     private AvlNode deleteMinHelper(AvlNode node) {
-        AvlNode temp = new AvlNode(null, null, null);
-        // ---- root cases ----
-        // no root
-        if (isEmpty()) {
+        if (node == null) {
             return null;
         }
-        // root w/ no children
-        if (node.left == null && node.right == null) {
-            temp = this.root;
-            makeEmpty();
-            return temp;
-        }
-        // root node w/ no left children
-        if (node.left == null) {
-            temp = this.root;
-            this.root = node.right;
-            return temp;
-        }
-
-        // ---- non-root cases ----
-        // recursively find min value
         if (node.left != null) {
-            if (node.left.left != null) {
-                deleteMinHelper(node.left);
-            } else { //node.left.left == null
-                temp = node;
-                if (node.left.right != null) {
-                    node.left = node.left.right;
-                } else {
-                    node.left = null;
-                }
-            }
+            node.left = deleteMinHelper(node.left);
+            return balance(node);
+        } else {
+            return node.right;
         }
-        return temp;
     }
 
     // Find the largest item in the tree.
