@@ -27,7 +27,7 @@
  * Note that all "matching" is based on the equals method.
  * @author Mark Allen Weiss (based on code from)
  */
-public class HashTable<K> {
+public class HashTable<K, T> {
     // Construct the hash table.
     public HashTable() {
         this(DEFAULT_TABLE_SIZE);
@@ -44,24 +44,13 @@ public class HashTable<K> {
     }
 
     /**
-    * Construct the hash table
-    *
-    * @param key word
-    * @param value wordFreqInfo class
-    */
-    public HashTable(K key, K value) {
-        HashEntry<K> temp = new HashEntry<K>(key, value, true);
-        this.insert(temp.key);
-    }
-
-    /**
      * Insert into the hash table. If the item is
      * already present, do nothing.
      * Implementation issue: This routine doesn't allow you to use a lazily deleted location.  Do you see why?
      *
      * @param key the item to insert.
      */
-    public boolean insert(K key, K value) {
+    public boolean insert(K key, T value) {
         // Insert x as active
         int currentPos = findPos(key);
         // If we already have it in the hash table, update with the new value
@@ -69,7 +58,7 @@ public class HashTable<K> {
             return false;
         }
 
-        storage[currentPos] = new HashEntry<>(key, value, true);
+        storage[currentPos] = new HashEntry<>(key, value,  true);
         currentActiveEntries++;
 
         // Rehash; see Section 5.5
@@ -96,7 +85,7 @@ public class HashTable<K> {
      * Expand the hash table.
      */
     private void rehash() {
-        HashEntry<K>[] oldArray = storage;
+        HashEntry<K, T>[] oldArray = storage;
 
         // Create a new double-sized, empty table
         allocateArray(2 * oldArray.length);
@@ -106,7 +95,7 @@ public class HashTable<K> {
         // Copy table over
         for (var entry : oldArray) {
             if (entry != null && entry.isActive) {
-                insert(entry.key);
+                insert(entry.key, entry.value);
             }
         }
     }
@@ -185,7 +174,7 @@ public class HashTable<K> {
      * @param x the item to search for.
      * @return the matching item.
      */
-    public K find(K x) {
+    public T find(K x) {
         int currentPos = findPos(x);
         if (!isActive(currentPos)) {
             return null;
@@ -204,7 +193,9 @@ public class HashTable<K> {
         return storage[currentPos] != null && storage[currentPos].isActive;
     }
 
-    // Make the hash table logically empty.
+    /**
+     * Make the hash table logically empty.
+     */
     public void makeEmpty() {
         doClear();
     }
@@ -227,12 +218,12 @@ public class HashTable<K> {
         return hashVal;
     }
 
-    private class HashEntry<K> {
+    private class HashEntry<K, T> {
         public K key;   // the element
-        public K value; // the value
+        public T value; // the value
         public boolean isActive;  // false if marked deleted
 
-        public HashEntry(K key, K value, boolean active) {
+        public HashEntry(K key, T value, boolean active) {
             this.key = key;
             this.isActive = active;
             this.value = value;
@@ -241,7 +232,7 @@ public class HashTable<K> {
 
     private static final int DEFAULT_TABLE_SIZE = 101;
 
-    private HashEntry<K>[] storage; // The array of elements
+    private HashEntry<K, T>[] storage; // The array of elements
     private int occupiedCount;         // The number of occupied cells: active or deleted
     private int currentActiveEntries;                  // Current size
 
