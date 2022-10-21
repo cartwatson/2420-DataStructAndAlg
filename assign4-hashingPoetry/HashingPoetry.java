@@ -26,7 +26,6 @@ public class HashingPoetry {
         HashTable<String> allWords = new HashTable<>();
 
         try (Scanner input = new Scanner(file)) {
-            //
             // Start by reading all the words into memory.
             while (input.hasNext()) {
                 String word = cleanWord(input.next());

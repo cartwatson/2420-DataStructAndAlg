@@ -9,6 +9,18 @@
 // bool contains( x )     --> Return true if x is present
 // void makeEmpty( )      --> Remove all items
 
+/** TODO:
+*   change class to accept two generic param
+
+*   the find method should return the value, -- not key
+*   testHashTable demonstrates hash table use
+*   -- comment out or remove this as you start to work
+*
+*   DONE:
+*   modify class to also accept two generic param
+*   -- note the class has a key where should the value be placed
+*/
+
 
 /**
  * Probing table implementation of hash tables.
@@ -16,9 +28,7 @@
  * @author Mark Allen Weiss (based on code from)
  */
 public class HashTable<K> {
-    /**
-     * Construct the hash table.
-     */
+    // Construct the hash table.
     public HashTable() {
         this(DEFAULT_TABLE_SIZE);
     }
@@ -34,13 +44,24 @@ public class HashTable<K> {
     }
 
     /**
+    * Construct the hash table
+    *
+    * @param key word
+    * @param value wordFreqInfo class
+    */
+    public HashTable(K key, K value) {
+        HashEntry<K> temp = new HashEntry<K>(key, value, true);
+        this.insert(temp.key);
+    }
+
+    /**
      * Insert into the hash table. If the item is
      * already present, do nothing.
      * Implementation issue: This routine doesn't allow you to use a lazily deleted location.  Do you see why?
      *
      * @param key the item to insert.
      */
-    public boolean insert(K key) {
+    public boolean insert(K key, K value) {
         // Insert x as active
         int currentPos = findPos(key);
         // If we already have it in the hash table, update with the new value
@@ -48,7 +69,7 @@ public class HashTable<K> {
             return false;
         }
 
-        storage[currentPos] = new HashEntry<>(key,  true);
+        storage[currentPos] = new HashEntry<>(key, value, true);
         currentActiveEntries++;
 
         // Rehash; see Section 5.5
@@ -169,7 +190,7 @@ public class HashTable<K> {
         if (!isActive(currentPos)) {
             return null;
         } else {
-            return storage[currentPos].key;
+            return storage[currentPos].value;
         }
     }
 
@@ -183,9 +204,7 @@ public class HashTable<K> {
         return storage[currentPos] != null && storage[currentPos].isActive;
     }
 
-    /**
-     * Make the hash table logically empty.
-     */
+    // Make the hash table logically empty.
     public void makeEmpty() {
         doClear();
     }
@@ -210,11 +229,13 @@ public class HashTable<K> {
 
     private class HashEntry<K> {
         public K key;   // the element
+        public K value; // the value
         public boolean isActive;  // false if marked deleted
 
-        public HashEntry(K key, boolean active) {
+        public HashEntry(K key, K value, boolean active) {
             this.key = key;
             this.isActive = active;
+            this.value = value;
         }
     }
 
