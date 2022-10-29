@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 public class Assignment5 {
     public static void main(String[] args) {
-//        simpleQueueTest();
-//        scheduleTasks("taskset1.txt");
-//        scheduleTasks("taskset2.txt");
-//        scheduleTasks("taskset3.txt");
+        simpleQueueTest();
+        scheduleTasks("taskset1.txt");
+        scheduleTasks("taskset2.txt");
+        scheduleTasks("taskset3.txt");
         scheduleTasks("taskset4.txt");
-//        scheduleTasks("taskset5.txt");
+        scheduleTasks("taskset5.txt");
     }
 
     public static void scheduleTasks(String taskFile) {
@@ -46,21 +46,21 @@ public class Assignment5 {
                                  ArrayList<Task> tasksByDeadline,
                                  ArrayList<Task> tasksByStart,
                                  ArrayList<Task> tasksByDuration) {
-        // TODO: Write your task reading code here
         File file = new File(filename);
-        int i = 0;
+        int i = 1;
         try (Scanner input = new Scanner(file)) {
             while (input.hasNextLine()) {
                 String line = input.nextLine();
                 String[] values = line.split("\t");
+                // init values
+                int start = Integer.parseInt(values[0]);
+                int deadline = Integer.parseInt(values[1]);
+                int duration = Integer.parseInt(values[2]);
                 // create task objects
-                TaskByDeadline taskDeadline = new TaskByDeadline(i, Integer.parseInt(values[0]),
-                        Integer.parseInt(values[1]), Integer.parseInt(values[2]));
-                TaskByStart taskStart = new TaskByStart(i, Integer.parseInt(values[0]),
-                        Integer.parseInt(values[1]), Integer.parseInt(values[2]));
-                TaskByDuration taskDuration = new TaskByDuration(i, Integer.parseInt(values[0]),
-                        Integer.parseInt(values[1]), Integer.parseInt(values[2]));
-                // add objs to ArrayLists
+                TaskByDeadline taskDeadline = new TaskByDeadline(i, start, deadline, duration);
+                TaskByStart taskStart = new TaskByStart(i, start, deadline, duration);
+                TaskByDuration taskDuration = new TaskByDuration(i, start, deadline, duration);
+                // add objects to ArrayLists
                 tasksByDeadline.add(taskDeadline);
                 tasksByStart.add(taskStart);
                 tasksByDuration.add(taskDuration);
@@ -75,46 +75,64 @@ public class Assignment5 {
      * Given a set of tasks, schedules them and reports the scheduling results
      */
     public static void schedule(String label, ArrayList<Task> tasks) {
+        // start line
         System.out.println(label);
-        // feed list in queue
-        PriorityQueue<Task> queue = new PriorityQueue<>();
-        for (Task t : tasks) {
-            queue.enqueue(t);
-        }
 
-        // start "time"
+        // inits
         int time = 0;
         int tasksLate = 0;
         int totalTimeLate = 0;
-        while (!queue.isEmpty()) {
+        // feed list in queue
+        PriorityQueue<Task> queue = new PriorityQueue<>();
+
+        // algorithm
+        while (!tasks.isEmpty() || !queue.isEmpty()) {
+            // increment time
+            time++;
+            // arraylist to remember what to remove
+            ArrayList<Task> toRemove = new ArrayList<>();
+            // enqueue
+            for (Task t : tasks) {
+                if (t.start == time) {
+                    queue.enqueue(t);
+                    toRemove.add(t);
+                }
+            }
+
+            // remove tasks after enqueue
+            for (Task t : toRemove) {
+                tasks.remove(t);
+            }
+
+
             // remove from queue and process for one until empty
             Task working = queue.dequeue();
-            if (working.start > time) {
-                queue.enqueue(working);
-                working = null;
-            } else { // add back into queue if necessary
-                working.duration--;
-            }
-            // print out with time
+
+            // format print
             String taskID;
-            if (working != null) { // unfinished task
+            if (working != null) { // work was done
+                // only work if start time has elapsed
+                working.duration--;
+
                 if (working.duration == 0) { // finished task
                     taskID = working.toString() + " **";
-                    if (time > working.deadline) { // late task
+                    // was task late
+                    if (time > working.deadline) {
                         tasksLate++;
+                        // how late was the task
                         int timeLate = time - working.deadline;
                         totalTimeLate += timeLate;
-                        taskID += "Late " + timeLate;
+                        taskID += " Late " + timeLate;
                     }
-                } else {
+                } else { // unfinished task
                     taskID = working.toString();
                     queue.enqueue(working);
                 }
             } else { // no work done
                 taskID = "---";
             }
+            // print work info
             System.out.printf("\tTime %2d: %s %n", time, taskID);
-            time++;
         }
         // final print
         System.out.printf("Tasks late %d // Total Time Late %d%n%n", tasksLate, totalTimeLate);
