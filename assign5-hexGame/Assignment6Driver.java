@@ -43,7 +43,7 @@ public class Assignment6Driver {
 //        game.playBlue(122 - 11, true);
 //        game.playBlue(62, true);
 //
-        printGrid(game);
+//        printGrid(game);
     }
 
     // TODO: Complete this method
