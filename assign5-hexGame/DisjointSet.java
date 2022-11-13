@@ -30,7 +30,6 @@ public class DisjointSet {
     }
 
     public int find(int node) {
-        // must use a smart union find with path compression to track items in the same group
         if (upTree.get(node).parent != null) {
             return find(upTree.get(node).parent.value);
         } else {

@@ -8,6 +8,7 @@ public class Assignment6Driver {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
+
     public static void main(String[] args) {
 
         testGame();
@@ -56,7 +57,6 @@ public class Assignment6Driver {
                 }
             }
         }
-
         // print game
         printGrid(game);
     }
@@ -89,23 +89,22 @@ public class Assignment6Driver {
     private static void printGrid(HexGame game) {
         System.out.println();
         int size = game.size;
-        // iterate through gameboard
+        // iterate through game board
         for (int i = 1; i < (size + 1); i++) {
             System.out.print(" ".repeat(i));
             for (int j = 1; j < (size + 1); j++) {
                 int index = (i - 1) * size + j; // compute index
                 // determine output
-                if (game.colorOfOccupied(index) == HexGame.Color.RED) { // if red spit out a red R
+                if (game.colorOfOccupied(index) == HexGame.Color.RED) { // if red: output a red R
                     System.out.print(ANSI_RED + "R" + ANSI_RESET);
-                } else if (game.colorOfOccupied(index) == HexGame.Color.BLUE) { // if blue spit out a blue B
+                } else if (game.colorOfOccupied(index) == HexGame.Color.BLUE) { // if blue: output a blue B
                     System.out.print(ANSI_BLUE + "B" + ANSI_RESET);
-                } else { // else spit out a gray 0
+                } else { // else: output a gray 0
                     System.out.print("0");
                 }
                 System.out.print(" ");
             }
             System.out.println();
         }
-
     }
 }
