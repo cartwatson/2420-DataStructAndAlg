@@ -20,10 +20,10 @@ public class HexGame {
             colorArrayList.add(Color.NONE);
         }
         // init edges
-        TOP_EDGE = gameSize - 4; // 122
-        BOTTOM_EDGE = gameSize - 3; // 123
-        LEFT_EDGE = gameSize - 2; // 124
-        RIGHT_EDGE = gameSize - 1; // 125
+        TOP_EDGE    = gameSize - 4;
+        BOTTOM_EDGE = gameSize - 3;
+        LEFT_EDGE   = gameSize - 2;
+        RIGHT_EDGE  = gameSize - 1;
         // color edges
         colorArrayList.set(TOP_EDGE, Color.RED);
         colorArrayList.set(BOTTOM_EDGE, Color.RED);
@@ -40,29 +40,18 @@ public class HexGame {
     }
 
     public boolean play(int position, boolean displayNeighbors, Color color) {
-        // position is an integer for the available hex positions
+        // position is a valid integer for the available hex positions
         if (position < 1 || position > (size * size)) {
             return false;
         }
-        // this is for debugging only
+        // print out neighbors (debugging only)
         if (displayNeighbors) {
-            // the hex positions of neighboring cell are displayed, occupied or not
-            if (color == Color.BLUE) {
-                System.out.println(getNeighborsBlue(position));
-            } else {
-                System.out.println(getNeighborsRed(position));
-            }
+            System.out.println(getNeighbors(position, color));
         }
         // logic for playing
         if (this.colorOfOccupied(position) == Color.NONE) {
             // get correct neighbors
-            ArrayList<Integer> neighbors;
-            if (color == Color.BLUE) {
-                neighbors = getNeighborsBlue(position);
-            } else {
-                neighbors = getNeighborsRed(position);
-            }
-            // iterate over neighbors
+            ArrayList<Integer> neighbors = getNeighbors(position, color);
             for (Integer neighbor : neighbors) {
                 // only union if neighbor is the correct color
                 if (this.colorOfOccupied(neighbor) == color) {
@@ -89,22 +78,9 @@ public class HexGame {
         BLUE
     }
 
-    public ArrayList<Color> getGrid() {
-        return colorArrayList;
-    }
-
     // returns color of cell
     public Color colorOfOccupied(int position) {
         return colorArrayList.get(position);
-    }
-
-    // returns the neighboring cells
-    private ArrayList<Integer> getNeighborsRed(int position) {
-        return getNeighbors(position, Color.RED);
-    }
-
-    private ArrayList<Integer> getNeighborsBlue(int position) {
-        return getNeighbors(position, Color.BLUE);
     }
 
     private ArrayList<Integer> getNeighbors(int position, Color color) {
