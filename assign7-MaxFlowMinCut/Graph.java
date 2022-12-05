@@ -39,6 +39,7 @@ public class Graph {
        Representation as adjacency list may not be changed
        ---- PERSONAL CODE BELOW ----
        Private methods can be added to help
+       Function signatures may be changed
     */
 
     /*
@@ -52,15 +53,15 @@ public class Graph {
     /** Algorithm to find max-flow in a network */
     public int findMaxFlow(int s, int t, boolean report) {
         // print header
-        System.out.println("-- Max Flow: " + this.name + " --");
+        if (report) {
+            System.out.println("-- Max Flow: " + this.name + " --");
+        }
         // set total flow to zero
         int totalFlow = 0;
         // while hasAugmentingPath(s, t)
         while (this.hasAugmentingPath(s, t)) {
             // set available flow to the largest possible integer java can represent
             int availableFlow = Integer.MAX_VALUE;
-            // compute augmenting path from t to s
-
             // follow the augmenting path from t to s
                 // v is current vertex
                 // available flow = min of available flow or residual flow at vertex v
@@ -78,21 +79,25 @@ public class Graph {
     private boolean hasAugmentingPath(int s, int t) {
         // reset the "parent" on all vertices; parent is the vertex that flow comes from, computed during this algorithm
         // add s to the queue
-        // while queue is not empty and vertex t does not have a parent
+            // while queue is not empty and vertex t does not have a parent
             // remove from queue as vertex v
             // for all successor edges from v
                 // for the edge, call the other vertex w
                 // if there is residual capacity from v to w and not already part of the augmenting path, and it isn't vertex s, then it can be used
                     // remember the path; set parent of w to v
                     // add w to the queue
-        // if vertex t has a parent, then there is an augmenting path from s to t
+        // if vertex t has a parent
+            // then there is an augmenting path from s to t
         return false;
     }
 
     /** Algorithm to find the min-cut edges in a network */
-    public void findMinCut(int s) {
+    // added report to parameters
+    public void findMinCut(int s, boolean report) {
         // print header
-        System.out.println("-- Min Cut: " + this.name + " --");
+        if (report) {
+            System.out.println("-- Min Cut: " + this.name + " --");
+        }
         // Based on the max flow algorithm, compute the final residual graph
         // Find the set of vertices that are reachable from the source vertex in the residual graph; the set R includes s.  Call those vertices R.
         // All edges from a vertex in R to a vertex not in R are the minimum cut edges
