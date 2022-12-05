@@ -1,3 +1,5 @@
+/* ---- STARTER CODE DO NOT MODIFY ---- */
+
 import java.util.*;
 
 class GraphNode {
