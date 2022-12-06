@@ -5,7 +5,7 @@ public class Graph {
     private final String name;  //The file from which the graph was created.
     private final int[][] residual; // **** NOT SOURCE CODE ****
     private final ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
-    private final ArrayList<GraphNode.EdgeInfo> minEdges = new ArrayList<>();
+    private final ArrayList<ArrayList<Integer>> minEdges = new ArrayList<>();
 
     public Graph(String name, int vertexCount) {
         this.name = name;
@@ -65,7 +65,7 @@ public class Graph {
                 int residualFlow = 0;
                 boolean residualFlowSet = false;
                 for (GraphNode.EdgeInfo e : vertices[vertices[currVertex].parent].successor) {
-                    if (e.to == currVertex) { // TODO: fix the issue here with backflow
+                    if (e.to == currVertex) {
                         residualFlow = e.capacity - residual[vertices[currVertex].parent][currVertex];
                         residualFlowSet = true;
                     }
@@ -92,7 +92,7 @@ public class Graph {
                 residual[path.get(currV)][path.get(currV - 1)] += availableFlow;
             }
 
-            // add to global paths
+            // add to class scoped paths
             path.add(availableFlow);
             paths.add(path);
 
@@ -107,6 +107,35 @@ public class Graph {
 
         // return total flow
         return totalFlow;
+    }
+
+    /** Print out flow paths and edges */
+    private void findMaxReport(int totalFlow) {
+        // print header
+        System.out.println("-- Max Flow: " + this.name + " --");
+        // print paths
+        for (ArrayList<Integer> path : paths) {
+            System.out.print("Flow " + path.get(path.size() - 1) + ": ");
+            for (int i = path.size() - 2; i >= 0; i--) {
+                System.out.print(path.get(i) + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        // print edges
+        for (int i = 0; i < residual.length; i++) {
+            for (int j = 0; j < residual.length; j++) {
+                if (residual[i][j] > 0 ) {
+                    System.out.println("Edge(" + i + ", " + j + ") transports " + residual[i][j] + " items");
+                }
+            }
+        }
+        /******************************************** NOTE TO GRADER ***************************************************
+         * not sure if you wanted the totalFlow reporting inside or outside this function...
+         * comment the next line if totalFlow reporting is to be done inside the graph class
+         **************************************************************************************************************/
+        System.out.printf("Total Flow: %d\n", totalFlow);
+        System.out.println();
     }
 
     /** Algorithm to find an augmenting path in a network */
@@ -142,49 +171,64 @@ public class Graph {
                 }
             }
         }
-        
+
         // if vertex sink has a parent: an augmenting path exists
         // else: no augmenting path
         return (vertices[sink].parent != -1);
     }
 
-    /** Print out flow paths and edges */
-    private void findMaxReport(int totalFlow) {
-        // print header
-        System.out.println("-- Max Flow: " + this.name + " --");
-        // print paths
-        for (ArrayList<Integer> path : paths) {
-            System.out.print("Flow " + path.get(path.size() - 1) + ": ");
-            for (int i = path.size() - 2; i >= 0; i--) {
-                System.out.print(path.get(i) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        // print edges
-        for (int i = 0; i < residual.length; i++) {
-            for (int j = 0; j < residual.length; j++) {
-                if (residual[i][j] > 0 ) {
-                    System.out.println("Edge(" + i + ", " + j + ") transports " + residual[i][j] + " items");
-                }
-            }
-        }
-        /** NOTE TO GRADER ---------------------------------------------------------------------------------------------
-         * not sure if you wanted the totalFlow reporting inside or outside this function...
-         * comment the next line if totalFlow reporting is to be done inside the graph class
-         */
-         System.out.printf("Total Flow: %d\n", totalFlow);
-         System.out.println();
-    }
-
     /** Algorithm to find the min-cut edges in a network */
     // NOTE: added report to parameters
     public void findMinCut(int s, boolean report) {
-        // Based on the max flow algorithm, compute the final residual graph
-        // Find the set of vertices that are reachable from the source vertex in the residual graph; the set R includes s.  Call those vertices R.
+        // init set
+        ArrayList<Integer> reachableFromSource = new ArrayList<>();
+        reachableFromSource.add(s);
+        // init queue
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(s);
 
-        // All edges from a vertex in R to a vertex not in R are the minimum cut edges
+        // find all vertices reachable from s, add to set
+        while (!queue.isEmpty()) {
+            int currVertex = queue.remove();
+            // residual is graph with forward and backward topology
+            for (GraphNode.EdgeInfo edge : vertices[currVertex].successor) {
+                // node that used all forward capacity // topologically, faces backwards from original orientation
+                if (edge.capacity == residual[currVertex][edge.to]) {
+                    // not reachable from current node // thus don't add to queue
+                    continue;
+                }
+                // node that only used some forward capacity // topologically, faces both directions
+                else if (edge.capacity > residual[currVertex][edge.to] && residual[currVertex][edge.to] > 0) {
+                    // reachable from current node
+                    reachableFromSource.add(edge.to);
+                    // add to queue
+                    queue.add(edge.to);
+                }
+            }
 
+            // check back flow
+            for (int j = 0; j < vertices.length; j++) { // j will be toVertex
+                if (residual[currVertex][j] < 0) {
+                    if (vertices[j].parent == currVertex) {
+                        reachableFromSource.add(j);
+                    }
+                }
+            }
+        }
+
+        // cut all paths that are used between set and not set
+        for (Integer i : reachableFromSource) {
+            int currVertex = i;
+            for (GraphNode.EdgeInfo edge : vertices[currVertex].successor) {
+                if (!reachableFromSource.contains(edge.to)) {
+                    ArrayList<Integer> e = new ArrayList<>();
+                    e.add(currVertex);
+                    e.add(edge.to);
+                    e.add(residual[currVertex][edge.to]);
+                    minEdges.add(e);
+                }
+            }
+        }
 
         // abstracted report
         if (report) {
@@ -192,10 +236,11 @@ public class Graph {
         }
     }
 
+    /** Print out edges to cut */
     private void findMinCutReport() {
         System.out.println("-- Min Cut: " + this.name + " --");
-        for (GraphNode.EdgeInfo e : minEdges) {
-            System.out.println("Min Cut Edge: (" + e.from + ", " + e.to + ")");
+        for (ArrayList<Integer> e : minEdges) {
+            System.out.println("Min Cut Edge: (" + e.get(0) + ", " + e.get(1) + "): " + e.get(2));
         }
         System.out.println();
     }
